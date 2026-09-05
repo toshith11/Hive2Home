@@ -25,7 +25,7 @@ from app.lab_report_analysis import analyse_parameters, extract_parameters_from_
 
 app = FastAPI(
     title="Hive2Home AI Engine",
-    description="Member 5 — Hive Health, Production Prediction, Location Recommendation, Lab Report Analysis",
+    description="Hive Health, Production Prediction, Location Recommendation, Lab Report Analysis",
     version="0.1.0",
 )
 
