@@ -7,12 +7,16 @@ function Product() {
   const [showLabReport, setShowLabReport] = useState(false);
   const [showBlockchain, setShowBlockchain] = useState(false);
 
+  // Prototype product data
+  // This will later be replaced by backend API data.
   const product = {
     name: "Wildflower Honey",
+    honeyType: "Wildflower Honey",
     jarId: jarId || "H2H-JAR-001",
     batchId: "H2H-B2026-001",
     harvestDate: "03 September 2026",
     sourceApiary: "Green Valley Apiary",
+    beekeeper: "Rajesh Kumar",
     processingDate: "05 September 2026",
     labReportId: "LAB-2026-00128",
     labTestDate: "06 September 2026",
@@ -22,35 +26,38 @@ function Product() {
   return (
     <main className="product-page">
 
-      {/* PRODUCT HEADER */}
+      {/* =========================================
+          PRODUCT HEADER
+          ========================================= */}
+
       <section className="product-header">
 
-        <div>
-          <p className="small-label">
-            HIVE2HOME PRODUCT VERIFICATION
-          </p>
-
-          <h1>🍯 {product.name}</h1>
-
-          <p>
-            Verified honey product with a traceable journey
-            from hive to consumer.
-          </p>
+        <div className="product-icon">
+          🍯
         </div>
 
+        <h1>{product.name}</h1>
+
+        <p>
+          Hive2Home Product Verification
+        </p>
+
         <div className="verified-badge">
-          ✓ VERIFIED PRODUCT
+          ✓ VERIFIED HONEY
         </div>
 
       </section>
 
 
-      {/* PRODUCT INFORMATION */}
-      <section className="product-grid">
+      {/* =========================================
+          PRODUCT INFORMATION
+          ========================================= */}
+
+      <section className="product-section">
+
+        <h2>🍯 Product Information</h2>
 
         <div className="info-card">
-
-          <h2>🍯 Product Information</h2>
 
           <div className="info-row">
             <span>Jar ID</span>
@@ -64,12 +71,17 @@ function Product() {
 
           <div className="info-row">
             <span>Honey Type</span>
-            <strong>Wildflower Honey</strong>
+            <strong>{product.honeyType}</strong>
           </div>
 
           <div className="info-row">
             <span>Source Apiary</span>
             <strong>{product.sourceApiary}</strong>
+          </div>
+
+          <div className="info-row">
+            <span>Beekeeper / Producer</span>
+            <strong>{product.beekeeper}</strong>
           </div>
 
           <div className="info-row">
@@ -84,33 +96,43 @@ function Product() {
 
         </div>
 
+      </section>
 
-        {/* VERIFICATION STATUS */}
-        <div className="info-card">
 
-          <h2>🛡️ Verification Status</h2>
+      {/* =========================================
+          VERIFICATION STATUS
+          ========================================= */}
 
-          <div className="status-success">
-            ✓ This batch is approved for release.
-          </div>
+      <section className="product-section">
 
-          <div className="info-row">
+        <h2>✅ Verification Status</h2>
+
+        <div className="verification-status-card">
+
+          <div className="status-item">
             <span>Batch Status</span>
-            <strong className="passed-text">
+            <strong className="status-success">
               VERIFIED
             </strong>
           </div>
 
-          <div className="info-row">
+          <div className="status-item">
             <span>Laboratory Test</span>
-            <strong className="passed-text">
+            <strong className="status-success">
               PASSED
             </strong>
           </div>
 
-          <div className="info-row">
+          <div className="status-item">
+            <span>Release Status</span>
+            <strong className="status-success">
+              APPROVED FOR RELEASE
+            </strong>
+          </div>
+
+          <div className="status-item">
             <span>Traceability</span>
-            <strong className="passed-text">
+            <strong className="status-success">
               VERIFIED
             </strong>
           </div>
@@ -120,53 +142,135 @@ function Product() {
       </section>
 
 
-      {/* HONEY JOURNEY */}
+      {/* =========================================
+          HONEY JOURNEY
+          ========================================= */}
+
       <section className="journey-section">
 
         <h2>🌱 Honey Journey</h2>
 
         <p className="section-description">
-          Follow the verified journey of this honey batch.
+          Follow the verified journey of this honey batch
+          from hive to retailer.
         </p>
 
         <div className="journey-timeline">
 
+          {/* HIVE */}
+
           <div className="timeline-item">
-            <div className="timeline-icon">🐝</div>
+
+            <div className="timeline-icon">
+              🐝
+            </div>
+
             <h3>Hive</h3>
-            <p>Honey produced in the source apiary.</p>
+
+            <p>
+              Honey produced at {product.sourceApiary}.
+            </p>
+
           </div>
+
 
           <div className="timeline-line"></div>
 
+
+          {/* HARVEST */}
+
           <div className="timeline-item">
-            <div className="timeline-icon">🍯</div>
+
+            <div className="timeline-icon">
+              🍯
+            </div>
+
             <h3>Harvest</h3>
-            <p>{product.harvestDate}</p>
+
+            <p>
+              Harvested on {product.harvestDate}.
+            </p>
+
           </div>
+
 
           <div className="timeline-line"></div>
 
+
+          {/* PROCESSING */}
+
           <div className="timeline-item">
-            <div className="timeline-icon">🧪</div>
+
+            <div className="timeline-icon">
+              🏭
+            </div>
+
+            <h3>Processing</h3>
+
+            <p>
+              Processed on {product.processingDate}.
+            </p>
+
+          </div>
+
+
+          <div className="timeline-line"></div>
+
+
+          {/* LABORATORY */}
+
+          <div className="timeline-item">
+
+            <div className="timeline-icon">
+              🧪
+            </div>
+
             <h3>Laboratory</h3>
-            <p>Quality test passed.</p>
+
+            <p>
+              Quality test completed and passed.
+            </p>
+
           </div>
+
 
           <div className="timeline-line"></div>
 
+
+          {/* BLOCKCHAIN */}
+
           <div className="timeline-item">
-            <div className="timeline-icon">🔐</div>
-            <h3>Verified</h3>
-            <p>Batch approved for release.</p>
+
+            <div className="timeline-icon">
+              🔐
+            </div>
+
+            <h3>Blockchain Verified</h3>
+
+            <p>
+              Batch traceability record confirmed.
+            </p>
+
           </div>
+
 
           <div className="timeline-line"></div>
 
+
+          {/* RETAILER */}
+
           <div className="timeline-item">
-            <div className="timeline-icon">🏪</div>
+
+            <div className="timeline-icon">
+              🏪
+            </div>
+
             <h3>Retailer</h3>
-            <p>{product.retailer}</p>
+
+            <p>
+              Supplied to {product.retailer}.
+            </p>
+
           </div>
 
         </div>
@@ -174,78 +278,111 @@ function Product() {
       </section>
 
 
-      {/* LAB + BLOCKCHAIN */}
-      <section className="detail-section">
+      {/* =========================================
+          LAB + BLOCKCHAIN
+          ========================================= */}
+
+      <section className="verification-details">
 
         {/* LAB REPORT */}
+
         <div className="detail-card">
 
-          <h2>🧪 Laboratory Verification</h2>
-
-          <div className="status-success">
-            ✓ QUALITY TEST PASSED
+          <div className="detail-icon">
+            🧪
           </div>
 
-          <div className="info-row">
-            <span>Report ID</span>
-            <strong>{product.labReportId}</strong>
-          </div>
+          <h3>
+            Laboratory Verification
+          </h3>
 
-          <div className="info-row">
-            <span>Test Date</span>
-            <strong>{product.labTestDate}</strong>
-          </div>
+          <p>
+            Official laboratory testing has been completed
+            for this honey batch.
+          </p>
 
-          <div className="info-row">
-            <span>Quality Status</span>
-            <strong className="passed-text">
-              PASSED
-            </strong>
+          <div className="detail-info">
+
+            <div>
+              <span>Report ID</span>
+              <strong>
+                {product.labReportId}
+              </strong>
+            </div>
+
+            <div>
+              <span>Test Date</span>
+              <strong>
+                {product.labTestDate}
+              </strong>
+            </div>
+
+            <div>
+              <span>Result</span>
+              <strong className="status-success">
+                PASSED
+              </strong>
+            </div>
+
           </div>
 
           <button
-            className="outline-btn"
+            className="detail-btn"
             onClick={() => setShowLabReport(true)}
           >
-            📄 View Lab Report
+            View Lab Report
           </button>
 
         </div>
 
 
         {/* BLOCKCHAIN */}
+
         <div className="detail-card">
 
-          <h2>🔗 Blockchain Traceability</h2>
+          <div className="detail-icon">
+            🔗
+          </div>
 
-          <p className="blockchain-status">
-            ✓ Batch traceability record verified
+          <h3>
+            Blockchain Traceability
+          </h3>
+
+          <p>
+            The verified batch traceability record is linked
+            to the Hive2Home blockchain system.
           </p>
 
-          <div className="info-row">
-            <span>Batch Record</span>
-            <strong>{product.batchId}</strong>
-          </div>
+          <div className="detail-info">
 
-          <div className="info-row">
-            <span>Integrity</span>
-            <strong className="passed-text">
-              VERIFIED
-            </strong>
-          </div>
+            <div>
+              <span>Batch</span>
+              <strong>
+                {product.batchId}
+              </strong>
+            </div>
 
-          <div className="info-row">
-            <span>Record Status</span>
-            <strong className="passed-text">
-              CONFIRMED
-            </strong>
+            <div>
+              <span>Record Status</span>
+              <strong className="status-success">
+                VERIFIED
+              </strong>
+            </div>
+
+            <div>
+              <span>Traceability</span>
+              <strong>
+                CONFIRMED
+              </strong>
+            </div>
+
           </div>
 
           <button
-            className="outline-btn"
+            className="detail-btn"
             onClick={() => setShowBlockchain(true)}
           >
-            🔗 View Blockchain Record
+            View Blockchain Record
           </button>
 
         </div>
@@ -253,47 +390,70 @@ function Product() {
       </section>
 
 
-      {/* RETAILER */}
-      <section className="retailer-card">
+      {/* =========================================
+          RETAILER VERIFICATION
+          ========================================= */}
 
-        <div>
-          <h2>🏪 Verified Retailer</h2>
+      <section className="retailer-product-section">
 
-          <p>
-            This product is associated with:
-            <strong> {product.retailer}</strong>
-          </p>
+        <h2>🏪 Retailer Verification</h2>
+
+        <div className="retailer-product-card">
+
+          <div>
+
+            <h3>
+              {product.retailer}
+            </h3>
+
+            <p>
+              Verified retailer associated with this
+              honey supply chain.
+            </p>
+
+          </div>
+
+          <div className="retailer-status">
+            ✓ VERIFIED
+          </div>
+
         </div>
-
-        <span className="verified-small">
-          ✓ VERIFIED
-        </span>
 
       </section>
 
 
-      {/* COMPLAINT */}
+      {/* =========================================
+          REPORT ISSUE
+          ========================================= */}
+
       <section className="complaint-section">
 
-        <h2>⚠️ Found a problem?</h2>
+        <h2>
+          🧾 Found an Issue?
+        </h2>
 
         <p>
-          If you have a quality, packaging or other concern,
-          you can submit a complaint for traceability investigation.
+          If you have concerns about this honey product,
+          you can submit a traceability complaint for
+          investigation.
         </p>
 
         <Link
           to="/complaint"
-          className="primary-btn"
+          className="complaint-btn"
         >
-          Report a Problem
+          Report an Issue
         </Link>
 
       </section>
 
 
-      {/* LAB REPORT MODAL */}
+      {/* =========================================
+          LAB REPORT MODAL
+          ========================================= */}
+
       {showLabReport && (
+
         <div
           className="modal-overlay"
           onClick={() => setShowLabReport(false)}
@@ -301,7 +461,7 @@ function Product() {
 
           <div
             className="modal-card"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
 
             <button
@@ -311,70 +471,66 @@ function Product() {
               ✕
             </button>
 
-            <h2>🧪 Laboratory Report</h2>
+            <h2>
+              🧪 Laboratory Report
+            </h2>
 
-            <div className="demo-warning">
-              Prototype / Demo Laboratory Report
+            <div className="modal-status">
+              ✓ QUALITY TEST PASSED
             </div>
 
             <div className="modal-info">
 
               <div>
                 <span>Report ID</span>
-                <strong>{product.labReportId}</strong>
+                <strong>
+                  {product.labReportId}
+                </strong>
               </div>
 
               <div>
                 <span>Batch ID</span>
-                <strong>{product.batchId}</strong>
+                <strong>
+                  {product.batchId}
+                </strong>
               </div>
 
               <div>
                 <span>Test Date</span>
-                <strong>{product.labTestDate}</strong>
+                <strong>
+                  {product.labTestDate}
+                </strong>
               </div>
 
               <div>
-                <span>Quality Status</span>
-                <strong className="passed-text">
+                <span>Result</span>
+                <strong>
                   PASSED
                 </strong>
               </div>
 
             </div>
 
-            <h3>Quality Parameters</h3>
-
-            <div className="test-result passed">
-              ✓ Moisture — Within configured limit
-            </div>
-
-            <div className="test-result passed">
-              ✓ Sugar profile — Passed
-            </div>
-
-            <div className="test-result passed">
-              ✓ HMF — Passed
-            </div>
-
-            <div className="test-result passed">
-              ✓ Quality evaluation — Passed
-            </div>
-
-            <p className="modal-note">
-              This simulated report is provided only for the
-              Hive2Home prototype and is not an official
-              laboratory certificate.
+            <p className="prototype-note">
+              Prototype demonstration: laboratory report
+              data shown here is simulated. Official
+              laboratory testing remains the source of
+              official quality verification.
             </p>
 
           </div>
 
         </div>
+
       )}
 
 
-      {/* BLOCKCHAIN MODAL */}
+      {/* =========================================
+          BLOCKCHAIN MODAL
+          ========================================= */}
+
       {showBlockchain && (
+
         <div
           className="modal-overlay"
           onClick={() => setShowBlockchain(false)}
@@ -382,7 +538,7 @@ function Product() {
 
           <div
             className="modal-card"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
 
             <button
@@ -392,70 +548,57 @@ function Product() {
               ✕
             </button>
 
-            <h2>🔗 Blockchain Traceability Record</h2>
+            <h2>
+              🔗 Blockchain Traceability
+            </h2>
 
-            <div className="demo-warning">
-              Prototype Blockchain Record
+            <div className="modal-status">
+              ✓ TRACEABILITY VERIFIED
             </div>
 
             <div className="modal-info">
 
               <div>
                 <span>Batch ID</span>
-                <strong>{product.batchId}</strong>
+                <strong>
+                  {product.batchId}
+                </strong>
               </div>
 
               <div>
-                <span>Record Status</span>
-                <strong className="passed-text">
+                <span>Jar ID</span>
+                <strong>
+                  {product.jarId}
+                </strong>
+              </div>
+
+              <div>
+                <span>Blockchain Status</span>
+                <strong>
                   VERIFIED
                 </strong>
               </div>
 
               <div>
-                <span>Integrity</span>
-                <strong className="passed-text">
-                  VERIFIED
+                <span>Record</span>
+                <strong>
+                  IMMUTABLE TRACEABILITY RECORD
                 </strong>
               </div>
 
-              <div>
-                <span>Record ID</span>
-                <strong>H2H-TX-2026-001</strong>
-              </div>
-
             </div>
 
-            <h3>Recorded Journey</h3>
-
-            <div className="blockchain-event">
-              ✓ Hive Record
-            </div>
-
-            <div className="blockchain-event">
-              ✓ Harvest Record
-            </div>
-
-            <div className="blockchain-event">
-              ✓ Laboratory Record
-            </div>
-
-            <div className="blockchain-event">
-              ✓ Verification Record
-            </div>
-
-            <div className="blockchain-event">
-              ✓ Retailer Supply Record
-            </div>
-
-            <p className="modal-note">
-              Blockchain integration will be connected to the
-              backend blockchain service in the next stage.
+            <p className="prototype-note">
+              Prototype demonstration: blockchain record
+              shown here is simulated. In the final system,
+              this information will be retrieved from the
+              Hive2Home blockchain backend.
             </p>
 
           </div>
 
         </div>
+
       )}
 
     </main>
