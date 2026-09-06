@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import 'phone_number_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  void _openNewBeekeeperFlow(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const PhoneNumberScreen(),
+      ),
+    );
+  }
+
+  void _showExistingUserMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Existing user login will be connected next.',
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +33,21 @@ class LoginScreen extends StatelessWidget {
           children: [
             _backgroundDecorations(),
             SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 28,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    _brandSection(),
-                    const SizedBox(height: 48),
-                    _welcomeSection(),
-                    const SizedBox(height: 32),
-                    _newBeekeeperCard(context),
-                    const SizedBox(height: 18),
-                    _existingBeekeeperCard(context),
-                    const SizedBox(height: 30),
-                    _divider(),
-                    const SizedBox(height: 25),
-                    _trustSection(),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+              padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
+              child: Column(
+                children: [
+                  _header(),
+                  const SizedBox(height: 42),
+                  _welcomeSection(),
+                  const SizedBox(height: 34),
+                  _newBeekeeperCard(context),
+                  const SizedBox(height: 18),
+                  _existingUserCard(context),
+                  const SizedBox(height: 30),
+                  _secureAccess(),
+                  const SizedBox(height: 28),
+                  _footer(),
+                ],
               ),
             ),
           ],
@@ -44,76 +57,72 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _backgroundDecorations() {
-    return IgnorePointer(
-      child: Stack(
-        children: [
-          Positioned(
-            top: -35,
-            right: -35,
+    return Stack(
+      children: [
+        Positioned(
+          top: -45,
+          left: -55,
+          child: Opacity(
+            opacity: 0.12,
+            child: _honeycombCluster(),
+          ),
+        ),
+        Positioned(
+          top: 170,
+          right: -65,
+          child: Opacity(
+            opacity: 0.09,
             child: Transform.rotate(
               angle: 0.15,
-              child: Opacity(
-                opacity: 0.10,
-                child: _honeycombCluster(),
-              ),
+              child: _honeycombCluster(),
             ),
           ),
-          Positioned(
-            bottom: -35,
-            left: -40,
+        ),
+        Positioned(
+          bottom: -35,
+          left: -45,
+          child: Opacity(
+            opacity: 0.08,
             child: Transform.rotate(
               angle: -0.12,
-              child: Opacity(
-                opacity: 0.08,
-                child: _honeycombCluster(),
-              ),
+              child: _honeycombCluster(),
             ),
           ),
-          Positioned(
-            top: 255,
-            left: -18,
-            child: _smallHexagon(),
-          ),
-          Positioned(
-            top: 390,
-            right: -12,
-            child: _smallHexagon(),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _honeycombCluster() {
     return SizedBox(
-      width: 170,
-      height: 150,
+      width: 180,
+      height: 160,
       child: Stack(
         children: [
           Positioned(
-            left: 0,
-            top: 25,
-            child: _hexagon(58),
+            left: 5,
+            top: 28,
+            child: _hexagon(60),
           ),
           Positioned(
-            left: 52,
+            left: 58,
             top: 0,
-            child: _hexagon(58),
+            child: _hexagon(60),
           ),
           Positioned(
-            left: 104,
-            top: 25,
-            child: _hexagon(58),
+            left: 112,
+            top: 28,
+            child: _hexagon(60),
           ),
           Positioned(
-            left: 27,
-            top: 76,
-            child: _hexagon(58),
+            left: 32,
+            top: 80,
+            child: _hexagon(60),
           ),
           Positioned(
-            left: 79,
-            top: 76,
-            child: _hexagon(58),
+            left: 86,
+            top: 80,
+            child: _hexagon(60),
           ),
         ],
       ),
@@ -126,80 +135,41 @@ class LoginScreen extends StatelessWidget {
       child: Container(
         width: size,
         height: size * 1.12,
-        decoration: BoxDecoration(
-          color: AppTheme.honeyGold.withValues(alpha: 0.55),
-        ),
+        color: AppTheme.honeyGold,
       ),
     );
   }
 
-  Widget _smallHexagon() {
-    return ClipPath(
-      clipper: HexagonClipper(),
-      child: Container(
-        width: 38,
-        height: 43,
-        color: AppTheme.honeyGold.withValues(alpha: 0.12),
-      ),
-    );
-  }
-
-  Widget _brandSection() {
-    return Column(
+  Widget _header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 76,
-          height: 76,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             color: AppTheme.lightHoney,
             shape: BoxShape.circle,
             border: Border.all(
               color: AppTheme.cardBorder,
-              width: 1.5,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.darkBrown.withValues(alpha: 0.08),
-                blurRadius: 18,
-                offset: const Offset(0, 7),
-              ),
-            ],
           ),
-          child: Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Icon(
-                  Icons.hexagon,
-                  size: 53,
-                  color: AppTheme.honeyGold.withValues(alpha: 0.22),
-                ),
-                const Icon(
-                  Icons.eco,
-                  size: 30,
-                  color: AppTheme.honeyGold,
-                ),
-              ],
+          child: const Center(
+            child: Text(
+              '🐝',
+              style: TextStyle(
+                fontSize: 25,
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 17),
+        const SizedBox(width: 12),
         const Text(
           'Hive2Home',
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 26,
             fontWeight: FontWeight.w800,
             color: AppTheme.darkBrown,
-            letterSpacing: 0.2,
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          width: 42,
-          height: 3,
-          decoration: BoxDecoration(
-            color: AppTheme.honeyGold,
-            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ],
@@ -207,25 +177,25 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _welcomeSection() {
-    return const Column(
+    return Column(
       children: [
-        Text(
+        const Text(
           'Welcome, Beekeeper',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w700,
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
             color: AppTheme.darkBrown,
           ),
         ),
-        SizedBox(height: 9),
-        Text(
-          'Let’s get your hive journey started.',
+        const SizedBox(height: 10),
+        const Text(
+          'Choose how you want to continue',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14.5,
+            fontSize: 15,
+            height: 1.5,
             color: AppTheme.secondaryBrown,
-            height: 1.4,
           ),
         ),
       ],
@@ -233,200 +203,202 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _newBeekeeperCard(BuildContext context) {
-    return _loginOptionCard(
-      icon: Icons.add_circle_outline_rounded,
-      title: 'I’m a New Beekeeper',
-      subtitle: 'Create your account using your phone number',
-      buttonText: 'Get Started',
-      onTap: () {
-        _showComingSoon(context, 'New Beekeeper');
-      },
-    );
-  }
-
-  Widget _existingBeekeeperCard(BuildContext context) {
-    return _loginOptionCard(
-      icon: Icons.person_outline_rounded,
-      title: 'I’m an Existing User',
-      subtitle: 'Login with your username and password',
-      buttonText: 'Login',
-      onTap: () {
-        _showComingSoon(context, 'Existing User');
-      },
-    );
-  }
-
-  Widget _loginOptionCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String buttonText,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppTheme.cardWhite,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppTheme.cardBorder,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.darkBrown.withValues(alpha: 0.045),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 55,
-            height: 55,
-            decoration: BoxDecoration(
-              color: AppTheme.lightHoney,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              icon,
-              size: 28,
-              color: AppTheme.honeyGold,
-            ),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16.5,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.darkBrown,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: AppTheme.secondaryBrown,
-                    height: 1.35,
-                  ),
-                ),
-                const SizedBox(height: 13),
-                SizedBox(
-                  height: 38,
-                  child: ElevatedButton(
-                    onPressed: onTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.honeyGold,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 17,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          buttonText,
-                          style: const TextStyle(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(width: 7),
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          size: 16,
-                        ),
-                      ],
+                _iconContainer(Icons.eco_outlined),
+                const SizedBox(width: 14),
+                const Expanded(
+                  child: Text(
+                    'I’m a New Beekeeper',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.darkBrown,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 14),
+            const Text(
+              'Create your beekeeper account using your phone number.',
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: AppTheme.secondaryBrown,
+              ),
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => _openNewBeekeeperFlow(context),
+                child: const Text(
+                  'Get Started',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _divider() {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            height: 1,
-            color: AppTheme.cardBorder,
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14),
-          child: Text(
-            'SECURE ACCESS',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.2,
-              color: AppTheme.secondaryBrown,
+  Widget _existingUserCard(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                _iconContainer(Icons.person_outline),
+                const SizedBox(width: 14),
+                const Expanded(
+                  child: Text(
+                    'I’m an Existing User',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.darkBrown,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
+            const SizedBox(height: 14),
+            const Text(
+              'Login with your username and password to access your account.',
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: AppTheme.secondaryBrown,
+              ),
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => _showExistingUserMessage(context),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppTheme.darkBrown,
+                  side: const BorderSide(
+                    color: AppTheme.cardBorder,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          child: Container(
-            height: 1,
-            color: AppTheme.cardBorder,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _trustSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _iconContainer(IconData icon) {
+    return Container(
+      width: 48,
+      height: 48,
+      decoration: BoxDecoration(
+        color: AppTheme.lightHoney,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Icon(
+        icon,
+        color: AppTheme.honeyGold,
+        size: 25,
+      ),
+    );
+  }
+
+  Widget _secureAccess() {
+    return Column(
       children: [
-        Icon(
-          Icons.verified_user_outlined,
-          size: 17,
-          color: AppTheme.verifiedGreen.withValues(alpha: 0.85),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 1,
+                color: AppTheme.cardBorder,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Text(
+                'SECURE ACCESS',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                  color: AppTheme.secondaryBrown,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 1,
+                color: AppTheme.cardBorder,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 7),
-        const Text(
-          'Your beekeeper account stays protected.',
-          style: TextStyle(
-            fontSize: 11.5,
-            color: AppTheme.secondaryBrown,
-          ),
+        const SizedBox(height: 14),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.lock_outline,
+              size: 16,
+              color: AppTheme.verifiedGreen,
+            ),
+            SizedBox(width: 7),
+            Flexible(
+              child: Text(
+                'Your account and beekeeper data are protected.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppTheme.secondaryBrown,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
-  void _showComingSoon(
-    BuildContext context,
-    String type,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '$type flow will be added next.',
-        ),
-        backgroundColor: AppTheme.darkBrown,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+  Widget _footer() {
+    return const Text(
+      'From a Healthy Hive to a Trusted Home.',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 12,
+        color: AppTheme.secondaryBrown,
       ),
     );
   }
