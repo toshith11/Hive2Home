@@ -1,119 +1,227 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function Retailer() {
   const { retailerId } = useParams();
 
+  const retailer = {
+    id: retailerId || "H2H-RET-001",
+    name: "ABC Organics",
+    location: "Bengaluru, Karnataka",
+    beekeeper: "Rajesh Kumar",
+    brand: "Hive2Home",
+    partnershipSince: "2025",
+    status: "VERIFIED",
+    products: [
+      "Wildflower Honey",
+      "Multifloral Honey",
+      "Forest Honey",
+    ],
+  };
+
   return (
     <main className="retailer-page">
 
-      <section className="retailer-hero">
-        <p className="small-label">HIVE2HOME RETAILER VERIFICATION</p>
+      {/* HEADER */}
+      <section className="retailer-header">
 
-        <h1>🏪 Retailer Verification</h1>
+        <div className="retailer-icon">
+          🏪
+        </div>
+
+        <h1>
+          {retailer.name}
+        </h1>
 
         <p>
-          Verify whether this retailer is part of the trusted Hive2Home
-          honey supply network.
+          Retailer / Supply Verification
         </p>
 
-        <div className="verified-badge">
+        <div className="retailer-verified-badge">
           ✓ VERIFIED RETAILER
         </div>
+
       </section>
 
-      <section className="retailer-content">
 
-        <div className="retailer-info-card">
-          <h2>Retailer Information</h2>
+      {/* RETAILER INFORMATION */}
+      <section className="retailer-section">
 
-          <div className="info-row">
-            <span>Retailer ID</span>
-            <strong>{retailerId}</strong>
+        <h2>
+          Retailer Information
+        </h2>
+
+        <div className="retailer-card">
+
+          <div className="retailer-info-row">
+            <span>
+              Retailer ID
+            </span>
+
+            <strong>
+              {retailer.id}
+            </strong>
           </div>
 
-          <div className="info-row">
-            <span>Retailer Name</span>
-            <strong>ABC Organics</strong>
+
+          <div className="retailer-info-row">
+            <span>
+              Retailer Name
+            </span>
+
+            <strong>
+              {retailer.name}
+            </strong>
           </div>
 
-          <div className="info-row">
-            <span>Verification Status</span>
-            <strong className="passed-text">✓ Verified</strong>
+
+          <div className="retailer-info-row">
+            <span>
+              Location
+            </span>
+
+            <strong>
+              {retailer.location}
+            </strong>
           </div>
 
-          <div className="info-row">
-            <span>Associated Network</span>
-            <strong>Hive2Home</strong>
+
+          <div className="retailer-info-row">
+            <span>
+              Verification Status
+            </span>
+
+            <strong className="status-text">
+              {retailer.status}
+            </strong>
           </div>
 
-          <div className="info-row">
-            <span>Verified Since</span>
-            <strong>September 2026</strong>
-          </div>
         </div>
 
-        <div className="retailer-info-card">
-          <h2>🔗 Supply Verification</h2>
+      </section>
 
-          <div className="supply-status">
-            ✓ Verified beekeeper relationship
+
+      {/* SUPPLY RELATIONSHIP */}
+      <section className="retailer-section">
+
+        <h2>
+          🔗 Verified Supply Relationship
+        </h2>
+
+        <p className="retailer-description">
+          This retailer has a verified supply relationship
+          with the beekeeper and honey supply chain recorded
+          in Hive2Home.
+        </p>
+
+        <div className="retailer-card">
+
+          <div className="retailer-info-row">
+            <span>
+              Beekeeper / Producer
+            </span>
+
+            <strong>
+              {retailer.beekeeper}
+            </strong>
           </div>
 
-          <div className="supply-status">
-            ✓ Verified honey supply records
+
+          <div className="retailer-info-row">
+            <span>
+              Brand
+            </span>
+
+            <strong>
+              {retailer.brand}
+            </strong>
           </div>
 
-          <div className="supply-status">
+
+          <div className="retailer-info-row">
+            <span>
+              Partnership Since
+            </span>
+
+            <strong>
+              {retailer.partnershipSince}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* PRODUCTS */}
+      <section className="retailer-section">
+
+        <h2>
+          🍯 Products Supplied
+        </h2>
+
+        <div className="retailer-products">
+
+          {retailer.products.map((product, index) => (
+
+            <div
+              className="retailer-product"
+              key={index}
+            >
+              <span>
+                🍯
+              </span>
+
+              {product}
+            </div>
+
+          ))}
+
+        </div>
+
+      </section>
+
+
+      {/* SUPPLY CHAIN VERIFICATION */}
+      <section className="retailer-section">
+
+        <h2>
+          🔐 Supply Chain Verification
+        </h2>
+
+        <div className="retailer-verification-card">
+
+          <div>
+            ✓ Retailer identity verified
+          </div>
+
+          <div>
+            ✓ Beekeeper relationship verified
+          </div>
+
+          <div>
+            ✓ Supply relationship recorded
+          </div>
+
+          <div>
             ✓ Traceability records available
           </div>
 
-          <p>
-            Honey products supplied through this retailer are linked with
-            Hive2Home traceability records.
-          </p>
         </div>
 
       </section>
 
-      <section className="verified-products">
 
-        <h2>🍯 Verified Honey Products</h2>
+      {/* BACK BUTTON */}
+      <div className="retailer-back">
 
-        <div className="product-mini-card">
-          <div>
-            <h3>Wildflower Honey</h3>
-            <p>Batch: H2H-B2026-001</p>
-          </div>
+        <Link
+          to="/"
+          className="retailer-back-btn"
+        >
+          ← Back to Hive2Home
+        </Link>
 
-          <span className="mini-verified">
-            ✓ Verified
-          </span>
-        </div>
-
-        <div className="product-mini-card">
-          <div>
-            <h3>Forest Honey</h3>
-            <p>Batch: H2H-B2026-002</p>
-          </div>
-
-          <span className="mini-verified">
-            ✓ Verified
-          </span>
-        </div>
-
-      </section>
-
-      <section className="retailer-note">
-
-        <h2>Why verify the retailer?</h2>
-
-        <p>
-          Hive2Home helps consumers confirm that honey is being supplied
-          through a verified retailer relationship, improving transparency
-          across the supply chain.
-        </p>
-
-      </section>
+      </div>
 
     </main>
   );

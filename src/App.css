@@ -1,7 +1,7 @@
-/* =========================================
-   HIVE2HOME CUSTOMER WEBSITE
-   Complete App.css
-   ========================================= */
+/* =========================================================
+   HIVE2HOME CUSTOMER WEB
+   HOME PAGE DESIGN
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -15,75 +15,97 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background: #fffaf0;
-  color: #3b2a16;
+  color: #352414;
 }
 
 a {
   text-decoration: none;
-  color: inherit;
 }
 
 button,
 input,
-select,
-textarea {
+textarea,
+select {
   font-family: inherit;
 }
 
 
-/* =========================================
+/* =========================================================
    NAVBAR
-   ========================================= */
+   ========================================================= */
 
 .navbar {
-  height: 70px;
+  width: 100%;
+  min-height: 76px;
   padding: 0 7%;
+  background: #ffffff;
+  border-bottom: 1px solid #eee5d8;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
-  border-bottom: 1px solid #eee1c8;
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 100;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #8a5a00;
-}
-
-.nav-links {
-  display: flex;
-  gap: 30px;
-}
-
-.nav-links a {
-  color: #4d3a20;
-  font-weight: 600;
-  transition: 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: #c17d00;
-}
-
-
-/* =========================================
-   HOME PAGE
-   ========================================= */
-
-.hero {
-  min-height: 520px;
+.navbar .logo {
   display: flex;
   align-items: center;
+  color: #8a5b00;
+  font-size: 26px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navbar .nav-links a {
+  color: #352414;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-links a:hover {
+  color: #d99a00;
+}
+
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+.home-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #fffaf0;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  min-height: 560px;
   padding: 70px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
   background: linear-gradient(120deg, #fff3c7, #fffaf0);
+  overflow: hidden;
 }
 
 .hero-content {
-  max-width: 850px;
+  max-width: 700px;
+  position: relative;
+  z-index: 2;
 }
 
 .tagline {
@@ -97,213 +119,293 @@ textarea {
   font-size: 58px;
   line-height: 1.08;
   margin: 20px 0;
+  color: #3b2a16;
+}
+
+.hero h1 span {
+  color: #b47700;
 }
 
 .hero-text {
+  max-width: 600px;
   font-size: 19px;
   line-height: 1.7;
   color: #66553d;
-  max-width: 600px;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
 }
 
 
-/* HOME BUTTONS */
+/* =========================================================
+   HERO VISUAL
+   Honey + bee animations removed
+   ========================================================= */
 
-.primary-btn,
-.secondary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px 26px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 16px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.primary-btn {
-  background: #d99a00;
-  color: white;
-  border: 2px solid #d99a00;
-}
-
-.primary-btn:hover {
-  background: #b97900;
-  border-color: #b97900;
-  transform: translateY(-2px);
-}
-
-.secondary-btn {
-  background: white;
-  border: 2px solid #d99a00;
-  color: #8a5a00;
-}
-
-.secondary-btn:hover {
-  background: #fff3c7;
-  transform: translateY(-2px);
+.hero-visual {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 
-/* HOME FEATURES */
+/* =========================================================
+   CONSUMER VERIFICATION
+   ========================================================= */
 
-.features {
-  padding: 70px 8%;
+.qr-section {
+  padding: 75px 8%;
+  text-align: center;
+  background: #fffaf0;
+}
+
+.section-heading {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 45px;
   text-align: center;
 }
 
-.features h2,
-.journey-preview h2 {
-  font-size: 34px;
-  margin-bottom: 40px;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-}
-
-.feature-card {
-  background: white;
-  padding: 30px 20px;
-  border-radius: 14px;
-  border: 1px solid #eee1c8;
-  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
-  transition: 0.2s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(80, 50, 10, 0.1);
-}
-
-.feature-icon {
-  font-size: 40px;
-}
-
-.feature-card h3 {
-  margin: 18px 0 10px;
-}
-
-.feature-card p {
-  color: #76654c;
-  line-height: 1.6;
-}
-
-
-/* HOME JOURNEY */
-
-.journey-preview {
-  padding: 70px 8%;
-  text-align: center;
-  background: #fff3d2;
-}
-
-.journey {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
+.section-tag {
+  display: inline-block;
+  font-size: 12px;
   font-weight: bold;
-}
-
-
-/* =========================================
-   FOOTER
-   ========================================= */
-
-.footer {
+  letter-spacing: 2px;
+  color: #a66b00;
   text-align: center;
-  padding: 40px 20px;
-  background: #3b2a16;
-  color: white;
 }
 
-.footer h3 {
-  margin-top: 0;
+.section-heading h2 {
+  width: 100%;
+  margin: 14px auto;
+  font-size: 36px;
+  color: #3b2a16;
+  text-align: center;
 }
 
-.footer p {
-  color: #e4d5bd;
+.section-heading p {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  color: #78674f;
+  font-size: 17px;
+  line-height: 1.6;
+  text-align: center;
 }
 
-
-/* =========================================
-   GENERAL PAGE
-   ========================================= */
-
-.page {
-  min-height: 600px;
-  padding: 70px 8%;
+.qr-options {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
 }
 
-.verification-card {
-  max-width: 800px;
-  margin-top: 30px;
+.qr-card {
   padding: 35px;
   background: white;
   border: 1px solid #eee1c8;
   border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.08);
+  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
+  transition: transform 0.2s ease;
+  text-align: center;
 }
 
-.verified {
+.qr-card:hover {
+  transform: translateY(-5px);
+}
+
+.qr-card-icon {
+  font-size: 45px;
+}
+
+.qr-card h3 {
+  margin: 15px 0 10px;
+  color: #3b2a16;
+  font-size: 23px;
+}
+
+.qr-card p {
+  color: #78674f;
+  line-height: 1.6;
+}
+
+.qr-action-btn {
   display: inline-block;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #e8f5e9;
-  color: #2e7d32;
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #d99a00;
+  color: white;
+  border-radius: 8px;
   font-weight: bold;
-  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.qr-action-btn:hover {
+  background: #c58a00;
 }
 
 
-/* =========================================
-   PRODUCT VERIFICATION
-   ========================================= */
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+
+.how-section {
+  padding: 75px 8%;
+  text-align: center;
+  background: #fff3d2;
+}
+
+.how-steps {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.how-step {
+  padding: 25px 15px;
+  background: white;
+  border: 1px solid #eee1c8;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.how-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.how-step h3 {
+  margin: 15px 0 8px;
+  color: #3b2a16;
+}
+
+.how-step p {
+  margin: 0;
+  color: #78674f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+
+.home-cta {
+  padding: 70px 20px;
+  text-align: center;
+  background: #fffaf0;
+}
+
+.cta-bees {
+  margin-bottom: 15px;
+  font-size: 30px;
+}
+
+.home-cta h2 {
+  max-width: 800px;
+  margin: 0 auto 12px;
+  font-size: 34px;
+  color: #3b2a16;
+  text-align: center;
+}
+
+.home-cta p {
+  margin: 0 auto;
+  color: #78674f;
+  font-size: 17px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  width: 100%;
+  padding: 45px 20px;
+  background: #3b2a16;
+  color: white;
+  text-align: center;
+}
+
+.footer h3 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.footer p {
+  margin: 7px 0;
+  color: #e4d5bd;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer p:last-child {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #cdbb9d;
+}
+
+
+/* =========================================================
+   PRODUCT VERIFICATION PAGE
+   ========================================================= */
 
 .product-page {
-  background: #fffaf0;
   min-height: 100vh;
+  background: #fffaf0;
   padding-bottom: 70px;
 }
 
 .product-header {
   padding: 60px 8%;
   background: #fff3c7;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "icon title badge"
+    "icon subtitle badge";
   align-items: center;
-  gap: 30px;
+  column-gap: 24px;
+  row-gap: 6px;
+}
+
+.product-icon {
+  grid-area: icon;
+  font-size: 60px;
 }
 
 .product-header h1 {
+  grid-area: title;
   font-size: 48px;
-  margin: 10px 0;
+  margin: 0;
+  color: #3b2a16;
+  text-align: left;
 }
 
 .product-header p {
+  grid-area: subtitle;
+  margin: 0;
   color: #6d5a3c;
   font-size: 17px;
-}
-
-.small-label {
-  font-size: 12px !important;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #a66b00 !important;
+  text-align: left;
 }
 
 .verified-badge {
+  grid-area: badge;
+  margin: 0;
   background: #e8f5e9;
   color: #2e7d32;
   padding: 14px 20px;
@@ -313,16 +415,21 @@ textarea {
 }
 
 
-/* PRODUCT INFORMATION */
+/* =========================================================
+   PRODUCT INFORMATION / STATUS
+   ========================================================= */
 
-.product-grid {
+.product-section {
   padding: 50px 8%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
 }
 
-.info-card {
+.product-section h2 {
+  margin-bottom: 25px;
+  color: #3b2a16;
+}
+
+.info-card,
+.verification-status-card {
   background: white;
   padding: 30px;
   border-radius: 15px;
@@ -330,101 +437,128 @@ textarea {
   box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
 }
 
-.info-card h2 {
-  margin-top: 0;
-}
-
-.info-row {
+.info-row,
+.status-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
   padding: 15px 0;
   border-bottom: 1px solid #eee8dc;
 }
 
-.info-row:last-child {
+.info-row:last-child,
+.status-item:last-child {
   border-bottom: none;
 }
 
-.info-row span {
+.info-row span,
+.status-item span {
   color: #78674f;
+}
+
+.info-row strong {
+  color: #3b2a16;
+  text-align: right;
 }
 
 .status-success {
+  display: inline-block;
   background: #e8f5e9;
   color: #2e7d32;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 8px 13px;
+  border-radius: 20px;
   font-weight: bold;
-  margin: 20px 0;
 }
 
 
-/* =========================================
+/* =========================================================
    HONEY JOURNEY
-   ========================================= */
+   ========================================================= */
 
-.journey-section {
-  padding: 60px 8%;
+.product-page .journey-section {
+  width: 100%;
+  padding: 70px 6%;
   background: #fff3d2;
+  text-align: center;
+  overflow: hidden;
+}
+
+.product-page .journey-section h2 {
+  margin: 0 0 12px;
+  font-size: 34px;
+  color: #3b2a16;
+}
+
+.product-page .journey-section .section-description {
+  margin: 0 auto;
+  color: #78674f;
+  line-height: 1.6;
   text-align: center;
 }
 
-.section-description {
-  color: #78674f;
-}
-
-.journey-timeline {
-  margin-top: 45px;
+.product-page .journey-timeline {
+  width: 100%;
+  max-width: 1200px;
+  margin: 50px auto 0;
   display: flex;
-  justify-content: center;
   align-items: flex-start;
-  gap: 12px;
+  justify-content: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 10px 10px 25px;
 }
 
-.timeline-item {
+.product-page .timeline-item {
   width: 150px;
+  min-width: 150px;
+  text-align: center;
 }
 
-.timeline-icon {
-  width: 60px;
-  height: 60px;
-  margin: auto;
+.product-page .timeline-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 16px;
   border-radius: 50%;
-  background: white;
+  background: #ffffff;
+  border: 2px solid #e1c47a;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  border: 2px solid #e1c47a;
+  font-size: 30px;
+  box-shadow: 0 4px 12px rgba(80, 50, 10, 0.08);
 }
 
-.timeline-item h3 {
-  margin-bottom: 5px;
+.product-page .timeline-item h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  color: #3b2a16;
 }
 
-.timeline-item p {
+.product-page .timeline-item p {
+  margin: 0;
   font-size: 13px;
-  color: #78674f;
   line-height: 1.5;
+  color: #78674f;
 }
 
-.timeline-line {
+.product-page .timeline-line {
   width: 45px;
+  min-width: 45px;
   height: 2px;
+  margin-top: 34px;
   background: #d5ad4c;
-  margin-top: 30px;
 }
 
 
-/* =========================================
-   LAB + BLOCKCHAIN
-   ========================================= */
+/* =========================================================
+   LAB + BLOCKCHAIN DETAILS
+   ========================================================= */
 
-.detail-section {
+.verification-details {
   padding: 60px 8%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 25px;
 }
 
@@ -433,43 +567,74 @@ textarea {
   padding: 30px;
   border-radius: 15px;
   border: 1px solid #eee1c8;
-  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.05);
+  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
 }
 
-.passed-text {
-  color: #2e7d32;
-  font-weight: bold;
+.detail-icon {
+  font-size: 38px;
 }
 
-.blockchain-status {
-  padding: 10px 0;
-  color: #2e7d32;
+.detail-card h3 {
+  margin: 15px 0 10px;
+  color: #3b2a16;
 }
 
-.outline-btn {
-  margin-top: 15px;
+.detail-card > p {
+  color: #78674f;
+  line-height: 1.6;
+}
+
+.detail-info {
+  margin-top: 20px;
+}
+
+.detail-info > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee8dc;
+}
+
+.detail-info span {
+  color: #78674f;
+}
+
+.detail-info strong {
+  color: #3b2a16;
+  text-align: right;
+}
+
+.detail-btn {
+  margin-top: 20px;
   padding: 12px 18px;
   background: white;
   border: 2px solid #d99a00;
   color: #8a5a00;
-  border-radius: 8px;
+  border-radius: 7px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
-.outline-btn:hover {
+.detail-btn:hover {
   background: #fff3c7;
-  transform: translateY(-2px);
 }
 
 
-/* =========================================
-   RETAILER CARD INSIDE PRODUCT PAGE
-   ========================================= */
+/* =========================================================
+   PRODUCT RETAILER
+   ========================================================= */
 
-.retailer-card {
-  margin: 0 8% 50px;
+.retailer-product-section {
+  padding: 50px 8%;
+}
+
+.retailer-product-section h2 {
+  color: #3b2a16;
+}
+
+.retailer-product-card {
+  margin-top: 25px;
   padding: 30px;
   background: white;
   border: 1px solid #eee1c8;
@@ -477,152 +642,271 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
+  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
 }
 
-.verified-small {
+.retailer-product-card h3 {
+  margin: 0 0 8px;
+  color: #3b2a16;
+}
+
+.retailer-product-card p {
+  margin: 0;
+  color: #78674f;
+}
+
+.retailer-status {
   background: #e8f5e9;
   color: #2e7d32;
   padding: 10px 15px;
   border-radius: 20px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 
-/* =========================================
-   PRODUCT COMPLAINT SECTION
-   ========================================= */
+/* =====================================================
+   PRODUCT PAGE — REPORT ISSUE
+   ===================================================== */
 
-.complaint-section {
-  margin: 0 8%;
-  padding: 45px;
+.product-page .complaint-section {
+  width: 84%;
+  max-width: 1100px;
+  margin: 0 auto 60px;
+  padding: 50px 30px;
   text-align: center;
   background: #fff3c7;
   border-radius: 15px;
 }
 
-.complaint-section p {
+.product-page .complaint-section h2 {
+  margin: 0 0 15px;
+  text-align: center;
+  font-size: 30px;
+  color: #3b2a16;
+}
+
+.product-page .complaint-section p {
   max-width: 650px;
-  margin: 15px auto 25px;
+  margin: 0 auto 25px;
+  text-align: center;
   color: #6d5a3c;
-}
-
-
-/* =========================================
-   RETAILER VERIFICATION PAGE
-   ========================================= */
-
-.retailer-page {
-  min-height: 100vh;
-  background: #fffaf0;
-  padding-bottom: 70px;
-}
-
-.retailer-hero {
-  padding: 60px 8%;
-  background: #fff3c7;
-}
-
-.retailer-hero h1 {
-  font-size: 46px;
-  margin: 15px 0;
-}
-
-.retailer-hero p {
-  max-width: 650px;
-  color: #6d5a3c;
-  font-size: 17px;
   line-height: 1.6;
 }
 
-.retailer-hero .verified-badge {
+.product-page .complaint-btn {
   display: inline-block;
-  margin-top: 20px;
-}
-
-.retailer-content {
-  padding: 50px 8%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-}
-
-.retailer-info-card {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  border: 1px solid #eee1c8;
-  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
-}
-
-.supply-status {
-  padding: 14px;
-  margin: 10px 0;
-  background: #e8f5e9;
-  color: #2e7d32;
+  padding: 13px 24px;
+  background: #d99a00;
+  color: #fff;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.verified-products {
-  padding: 20px 8% 50px;
-}
 
-.verified-products h2 {
-  margin-bottom: 25px;
-}
+/* =========================================================
+   MODAL
+   ========================================================= */
 
-.product-mini-card {
-  margin-top: 15px;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
-  background: white;
-  border: 1px solid #eee1c8;
+  background: rgba(53, 36, 20, 0.55);
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #f2ece2;
+  color: #352414;
+}
+
+.modal-info {
+  padding: 10px 20px;
+  background: #faf7f1;
   border-radius: 12px;
+}
+
+.modal-info > div {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  transition: 0.2s ease;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e8dfd2;
 }
 
-.product-mini-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(80, 50, 10, 0.06);
+.modal-info > div:last-child {
+  border-bottom: none;
 }
 
-.product-mini-card h3 {
-  margin: 0 0 6px;
+.modal-status {
+  display: inline-block;
+  padding: 9px 15px;
+  margin-bottom: 20px;
+  background: #e8f6e7;
+  color: #27823b;
+  border-radius: 20px;
+  font-weight: 700;
 }
 
-.product-mini-card p {
-  margin: 0;
-  color: #78674f;
+.prototype-note {
+  padding: 14px;
+  background: #fff8df;
+  border-left: 4px solid #d99a00;
+  color: #6c5840;
+  line-height: 1.6;
+  font-size: 13px;
 }
 
-.mini-verified {
-  color: #2e7d32;
-  font-weight: bold;
+
+/* =========================================================
+   RETAILER PAGE
+   ========================================================= */
+
+.retailer-page {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 55px 24px 75px;
 }
 
-.retailer-note {
-  margin: 0 8%;
-  padding: 35px;
-  background: #fff3d2;
-  border-radius: 15px;
+.retailer-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-.retailer-note h2 {
-  margin-top: 0;
+.retailer-icon {
+  font-size: 45px;
 }
 
-.retailer-note p {
-  max-width: 750px;
-  color: #6d5a3c;
+.retailer-header h1 {
+  margin: 10px 0;
+  font-size: 38px;
+}
+
+.retailer-header p {
+  color: #806e58;
+}
+
+.retailer-verified-badge {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #e8f6e7;
+  color: #27823b;
+  border-radius: 25px;
+  font-weight: 700;
+}
+
+.retailer-section {
+  margin-bottom: 40px;
+}
+
+.retailer-section h2 {
+  font-size: 26px;
+}
+
+.retailer-description {
+  color: #6c5840;
   line-height: 1.7;
 }
 
+.retailer-card {
+  background: #ffffff;
+  border: 1px solid #e5dac8;
+  border-radius: 15px;
+  padding: 5px 28px;
+}
 
-/* =========================================
-   COMPLAINT PAGE
-   ========================================= */
+.retailer-info-row {
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee8df;
+}
+
+.retailer-info-row:last-child {
+  border-bottom: none;
+}
+
+.retailer-info-row span {
+  color: #806e58;
+}
+
+.retailer-info-row strong {
+  text-align: right;
+}
+
+.retailer-products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.retailer-product {
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5dac8;
+  border-radius: 13px;
+  font-weight: 700;
+}
+
+.retailer-verification-card {
+  padding: 18px 24px;
+  background: #f5fbf5;
+  border: 1px solid #cfe5d1;
+  border-radius: 14px;
+}
+
+.retailer-verification-card div {
+  padding: 10px 0;
+  color: #27823b;
+  font-weight: 600;
+}
+
+.retailer-back {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.retailer-back-btn {
+  display: inline-block;
+  padding: 13px 22px;
+  background: #d99a00;
+  color: #ffffff !important;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   COMPLAINT / REPORT ISSUE PAGE
+   ========================================================= */
 
 .complaint-page {
   min-height: 100vh;
@@ -638,6 +922,7 @@ textarea {
 .complaint-header h1 {
   font-size: 44px;
   margin: 15px 0;
+  color: #3b2a16;
 }
 
 .complaint-header p {
@@ -645,6 +930,13 @@ textarea {
   color: #6d5a3c;
   font-size: 17px;
   line-height: 1.6;
+}
+
+.small-label {
+  font-size: 12px !important;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #a66b00 !important;
 }
 
 .complaint-container {
@@ -660,19 +952,21 @@ textarea {
   padding: 35px;
   border-radius: 15px;
   border: 1px solid #eee1c8;
-  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.05);
+  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
 }
 
 .complaint-form h2,
 .investigation-info h2 {
   margin-top: 0;
   margin-bottom: 25px;
+  color: #3b2a16;
 }
 
 .complaint-form label {
   display: block;
   font-weight: bold;
   margin: 16px 0 7px;
+  color: #3b2a16;
 }
 
 .complaint-form input,
@@ -687,17 +981,16 @@ textarea {
   background: white;
 }
 
+.complaint-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
 .complaint-form input:focus,
 .complaint-form select:focus,
 .complaint-form textarea:focus {
   outline: none;
   border-color: #d99a00;
-  box-shadow: 0 0 0 2px rgba(217, 154, 0, 0.12);
-}
-
-.complaint-form textarea {
-  min-height: 140px;
-  resize: vertical;
 }
 
 .submit-btn {
@@ -711,15 +1004,11 @@ textarea {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
 .submit-btn:hover {
-  background: #b97900;
+  background: #c58a00;
 }
-
-
-/* INVESTIGATION STEPS */
 
 .investigation-step {
   display: flex;
@@ -746,9 +1035,6 @@ textarea {
   line-height: 1.5;
 }
 
-
-/* IMPORTANT NOTE */
-
 .important-note {
   margin-top: 30px;
   padding: 18px;
@@ -762,7 +1048,9 @@ textarea {
 }
 
 
-/* COMPLAINT SUCCESS */
+/* =========================================================
+   COMPLAINT SUCCESS PAGE
+   ========================================================= */
 
 .complaint-success {
   max-width: 650px;
@@ -772,7 +1060,7 @@ textarea {
   border-radius: 18px;
   text-align: center;
   border: 1px solid #eee1c8;
-  box-shadow: 0 8px 25px rgba(80, 50, 10, 0.08);
+  box-shadow: 0 5px 20px rgba(80, 50, 10, 0.06);
 }
 
 .success-icon {
@@ -812,43 +1100,76 @@ textarea {
 }
 
 
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 900px) {
 
-  .feature-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 6%;
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-visual {
+    width: 350px;
+    height: 350px;
   }
 
   .hero h1 {
     font-size: 44px;
   }
 
-  .product-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .qr-options {
+    grid-template-columns: 1fr;
+    max-width: 600px;
   }
 
-  .product-grid,
-  .detail-section {
+  .how-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "icon"
+      "title"
+      "subtitle"
+      "badge";
+    justify-items: center;
+    text-align: center;
+  }
+
+  .product-header h1,
+  .product-header p {
+    text-align: center;
+  }
+
+  .verification-details {
     grid-template-columns: 1fr;
   }
 
   .journey-timeline {
     flex-direction: column;
     align-items: center;
+    overflow-x: visible;
   }
 
   .timeline-line {
     width: 2px;
-    height: 30px;
+    min-width: 2px;
+    height: 35px;
     margin: 0;
-  }
-
-  .retailer-content {
-    grid-template-columns: 1fr;
   }
 
   .complaint-container {
@@ -857,45 +1178,63 @@ textarea {
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
   .navbar {
-    padding: 0 20px;
+    min-height: auto;
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 14px;
   }
 
-  .logo {
-    font-size: 20px;
+  .navbar .logo {
+    font-size: 24px;
   }
 
-  .nav-links {
-    gap: 12px;
+  .navbar .nav-links {
+    gap: 24px;
   }
 
   .hero {
-    padding: 50px 25px;
-    min-height: 500px;
+    min-height: auto;
+    padding: 50px 20px;
+  }
+
+  .hero-content {
+    width: 100%;
   }
 
   .hero h1 {
-    font-size: 38px;
+    font-size: 42px;
   }
 
   .hero-text {
     font-size: 17px;
   }
 
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
+  .hero-visual {
+    display: none;
   }
 
-  .primary-btn,
-  .secondary-btn {
-    width: 100%;
+  .qr-section,
+  .how-section {
+    padding: 55px 20px;
   }
 
-  .feature-grid {
+  .section-heading h2 {
+    font-size: 30px;
+  }
+
+  .how-steps {
     grid-template-columns: 1fr;
+  }
+
+  .home-cta {
+    padding: 55px 20px;
+  }
+
+  .home-cta h2 {
+    font-size: 30px;
   }
 
   .product-header {
@@ -906,50 +1245,51 @@ textarea {
     font-size: 36px;
   }
 
-  .product-grid,
-  .detail-section {
+  .product-section,
+  .verification-details,
+  .retailer-product-section {
     padding: 35px 5%;
   }
 
-  .retailer-card {
-    margin: 0 5% 40px;
+  .info-card,
+  .verification-status-card,
+  .detail-card {
+    padding: 22px;
+  }
+
+  .info-row,
+  .status-item,
+  .detail-info > div,
+  .modal-info > div {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 6px;
   }
 
-  .retailer-hero {
-    padding: 45px 5%;
+  .info-row strong,
+  .detail-info strong,
+  .modal-info strong {
+    text-align: left;
   }
 
-  .retailer-hero h1 {
-    font-size: 36px;
-  }
-
-  .retailer-content {
-    padding: 35px 5%;
-  }
-
-  .verified-products {
-    padding: 20px 5% 40px;
-  }
-
-  .product-mini-card {
+  .retailer-product-card {
+    margin-top: 20px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
   }
 
-  .retailer-note {
-    margin: 0 5%;
+  .product-page .complaint-section {
+    width: 90%;
+    margin: 0 auto 40px;
+    padding: 40px 20px;
+  }
+
+  .modal-card {
+    padding: 28px 22px;
   }
 
   .complaint-header {
     padding: 45px 5%;
-  }
-
-  .complaint-header h1 {
-    font-size: 36px;
   }
 
   .complaint-container {
@@ -958,161 +1298,55 @@ textarea {
 
   .complaint-form,
   .investigation-info {
-    padding: 25px;
-  }
-
-  .complaint-section {
-    margin: 0 5%;
-    padding: 35px 20px;
+    padding: 25px 20px;
   }
 }
-/* HOME PAGE - MAKE BOTH VERIFY BUTTONS YELLOW */
 
-.hero-buttons .primary-btn,
-.hero-buttons .secondary-btn {
-  background: #d99a00 !important;
-  color: #ffffff !important;
-  border: 2px solid #d99a00 !important;
-  padding: 15px 26px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.hero-buttons .primary-btn:hover,
-.hero-buttons .secondary-btn:hover {
-  background: #b97900 !important;
-  border-color: #b97900 !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-}
-/* =========================================
-   LAB REPORT + BLOCKCHAIN MODALS
-   ========================================= */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(30, 20, 10, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 1000;
-}
-
-.modal-card {
-  position: relative;
-  width: 100%;
-  max-width: 650px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: white;
-  padding: 35px;
-  border-radius: 18px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
-}
-
-.modal-card h2 {
-  margin-top: 0;
-  margin-right: 35px;
-  color: #3b2a16;
-}
-
-.modal-card h3 {
-  margin-top: 25px;
-}
-
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 18px;
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 50%;
-  background: #fff3d2;
-  color: #8a5a00;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.modal-close:hover {
-  background: #ffe6a3;
-}
-
-.demo-warning {
-  padding: 12px 15px;
-  margin: 20px 0;
-  border-radius: 8px;
-  background: #fff3d2;
-  color: #8a5a00;
-  font-weight: bold;
-}
-
-.modal-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.modal-info div {
-  padding: 15px;
-  background: #fffaf0;
-  border-radius: 8px;
-  border: 1px solid #eee1c8;
-}
-
-.modal-info span {
-  display: block;
-  color: #78674f;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.modal-info strong {
-  color: #3b2a16;
-}
-
-.test-result,
-.blockchain-event {
-  padding: 13px 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-.test-result.passed,
-.blockchain-event {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.modal-note {
-  margin-top: 25px;
-  padding: 15px;
-  background: #f8f5ef;
-  color: #6d5a3c;
-  line-height: 1.6;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-
-/* MOBILE MODAL */
 
 @media (max-width: 600px) {
 
-  .modal-card {
-    padding: 25px 20px;
+  .hero {
+    padding: 50px 20px;
   }
 
-  .modal-info {
-    grid-template-columns: 1fr;
+  .hero h1 {
+    font-size: 38px;
   }
 
+  .hero-text {
+    font-size: 17px;
+  }
+
+  .section-heading h2 {
+    font-size: 30px;
+  }
+
+  .home-cta {
+    padding: 55px 20px;
+  }
+
+  .home-cta h2 {
+    font-size: 28px;
+  }
+
+  .product-page .journey-section {
+    padding: 55px 5%;
+  }
+
+  .product-page .journey-section h2 {
+    font-size: 30px;
+  }
+
+  .product-page .timeline-item {
+    width: 250px;
+  }
+
+  .complaint-header h1 {
+    font-size: 36px;
+  }
+
+  .complaint-success {
+    margin: 50px 5%;
+    padding: 40px 25px;
+  }
 }
