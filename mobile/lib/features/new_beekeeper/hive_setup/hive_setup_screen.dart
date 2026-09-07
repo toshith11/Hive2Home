@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../monitoring/monitoring_screen.dart';
+import '../../hive_group/hive_group_setup_screen.dart';
 
 class HiveSetupScreen extends StatefulWidget {
   final String location;
@@ -13,7 +13,8 @@ class HiveSetupScreen extends StatefulWidget {
 
 class _HiveSetupScreenState extends State<HiveSetupScreen> {
   String? _selectedHiveType;
-  String? _selectedHiveCount;
+
+  final TextEditingController _hiveCountController = TextEditingController();
 
   final List<String> _hiveTypes = [
     'Langstroth Hive',
@@ -21,33 +22,35 @@ class _HiveSetupScreenState extends State<HiveSetupScreen> {
     'Traditional Hive',
   ];
 
-  final List<String> _hiveCounts = [
-    '1 Hive',
-    '2 Hives',
-    '3 Hives',
-    'More than 3',
-  ];
-
   void _continue() {
-    if (_selectedHiveType == null || _selectedHiveCount == null) {
+    final hiveCount = int.tryParse(_hiveCountController.text.trim());
+
+    if (_selectedHiveType == null || hiveCount == null || hiveCount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please complete the hive setup details.'),
+          content: Text(
+            'Please select a hive type and enter a valid number of hives.',
+          ),
+          behavior: SnackBarBehavior.floating,
         ),
       );
       return;
     }
 
-    Navigator.push(
-      context,
+    Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => MonitoringScreen(
-          location: widget.location,
-          hiveType: _selectedHiveType!,
-          hiveCount: _selectedHiveCount!,
+        builder: (_) => HiveGroupSetupScreen(
+          apiaryName: widget.location,
+          totalHives: hiveCount,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _hiveCountController.dispose();
+    super.dispose();
   }
 
   @override
@@ -149,21 +152,15 @@ class _HiveSetupScreenState extends State<HiveSetupScreen> {
 
                   const SizedBox(height: 8),
 
-                  DropdownButtonFormField<String>(
-                    initialValue: _selectedHiveCount,
+                  TextField(
+                    controller: _hiveCountController,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      labelText: 'Number of Hives',
+                      labelText: 'Enter number of hives',
+                      hintText: 'Example: 5',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.grid_view_outlined),
                     ),
-                    items: _hiveCounts.map((count) {
-                      return DropdownMenuItem(value: count, child: Text(count));
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedHiveCount = value;
-                      });
-                    },
                   ),
 
                   const SizedBox(height: 24),
