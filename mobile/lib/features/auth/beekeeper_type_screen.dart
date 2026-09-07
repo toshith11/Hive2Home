@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import '../apiary/apiary_screen.dart';
+import '../new_beekeeper/new_beekeeper_screen.dart';
 
 class BeekeeperTypeScreen extends StatelessWidget {
   const BeekeeperTypeScreen({super.key});
 
   void _selectType(BuildContext context, bool isExisting) {
-  if (isExisting) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const ApiaryScreen(),
-      ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Beginner guidance journey will be connected next.',
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    if (isExisting) {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const ApiaryScreen()));
+    } else {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const NewBeekeeperScreen()));
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +28,7 @@ class BeekeeperTypeScreen extends StatelessWidget {
         elevation: 0,
         title: const Text(
           'Your Beekeeping Journey',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
       body: SafeArea(
@@ -52,15 +44,10 @@ class BeekeeperTypeScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppTheme.lightHoney,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppTheme.cardBorder,
-                    ),
+                    border: Border.all(color: AppTheme.cardBorder),
                   ),
                   child: const Center(
-                    child: Text(
-                      '🐝',
-                      style: TextStyle(fontSize: 44),
-                    ),
+                    child: Text('🐝', style: TextStyle(fontSize: 44)),
                   ),
                 ),
               ),
@@ -112,9 +99,7 @@ class BeekeeperTypeScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppTheme.lightHoney,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: AppTheme.cardBorder,
-                  ),
+                  border: Border.all(color: AppTheme.cardBorder),
                 ),
                 child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,9 +156,7 @@ class BeekeeperTypeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.cardWhite,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: AppTheme.cardBorder,
-        ),
+        border: Border.all(color: AppTheme.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,11 +168,7 @@ class BeekeeperTypeScreen extends StatelessWidget {
               color: AppTheme.lightHoney,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              icon,
-              color: AppTheme.honeyGold,
-              size: 29,
-            ),
+            child: Icon(icon, color: AppTheme.honeyGold, size: 29),
           ),
           const SizedBox(height: 18),
           Text(
