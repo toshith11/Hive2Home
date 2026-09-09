@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/data/app_data.dart';
 import '../hive_group/hive_group_setup_screen.dart';
 
 class ApiaryScreen extends StatefulWidget {
@@ -32,23 +33,29 @@ class _ApiaryScreenState extends State<ApiaryScreen> {
     super.dispose();
   }
 
-void _saveApiary() {
-  if (!_formKey.currentState!.validate()) {
-    return;
-  }
+  void _saveApiary() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-  final int hiveCount =
-      int.parse(_hiveCountController.text.trim());
+    final int hiveCount = int.parse(_hiveCountController.text.trim());
 
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-      builder: (_) => HiveGroupSetupScreen(
-        apiaryName: _apiaryNameController.text.trim(),
-        totalHives: hiveCount,
+    AppData.apiaryName = _apiaryNameController.text.trim();
+    AppData.location = _locationController.text.trim();
+    AppData.totalHives = hiveCount;
+    AppData.honeyType = _honeyType;
+    AppData.productionSeason = _productionSeason;
+    AppData.flowers = _flowersController.text.trim();
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => HiveGroupSetupScreen(
+          apiaryName: AppData.apiaryName,
+          totalHives: AppData.totalHives,
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   InputDecoration _inputDecoration({
     required String hintText,

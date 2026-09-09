@@ -1,74 +1,50 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/data/app_data.dart';
 import '../batch/batch_creation_screen.dart';
+import '../production_history/production_history_screen.dart';
 
 class ProductionScreen extends StatefulWidget {
-  const ProductionScreen({super.key});
+  final String apiaryName;
+  final List<Map<String, dynamic>> groups;
+
+  const ProductionScreen({
+    super.key,
+    required this.apiaryName,
+    required this.groups,
+  });
 
   @override
   State<ProductionScreen> createState() => _ProductionScreenState();
 }
 
 class _ProductionScreenState extends State<ProductionScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final _quantityController = TextEditingController();
+  final _notesController = TextEditingController();
 
-  final TextEditingController _quantityController =
-      TextEditingController();
-
-  final TextEditingController _notesController =
-      TextEditingController();
-
-  final List<Map<String, dynamic>> _groups = [
-    {
-      'name': 'Langstroth A',
-      'type': 'Langstroth',
-      'hives': [
-        'HIVE-001',
-        'HIVE-002',
-        'HIVE-003',
-        'HIVE-004',
-        'HIVE-005',
-        'HIVE-006',
-        'HIVE-007',
-        'HIVE-008',
-      ],
-    },
-    {
-      'name': 'Traditional B',
-      'type': 'Traditional',
-      'hives': [
-        'HIVE-009',
-        'HIVE-010',
-        'HIVE-011',
-        'HIVE-012',
-        'HIVE-013',
-      ],
-    },
-    {
-      'name': 'Top Bar C',
-      'type': 'Top Bar',
-      'hives': [
-        'HIVE-014',
-        'HIVE-015',
-        'HIVE-016',
-        'HIVE-017',
-        'HIVE-018',
-        'HIVE-019',
-        'HIVE-020',
-        'HIVE-021',
-        'HIVE-022',
-        'HIVE-023',
-        'HIVE-024',
-        'HIVE-025',
-      ],
-    },
+  final List<String> honeyTypes = [
+    'Wildflower Honey',
+    'Eucalyptus Honey',
+    'Mustard Honey',
+    'Mango Honey',
+    'Acacia Honey',
+    'Other',
   ];
 
-  String _selectedGroup = 'Langstroth A';
   String _selectedHoneyType = 'Wildflower Honey';
+  String _selectedGroup = '';
   DateTime _harvestDate = DateTime.now();
-
   final Set<String> _selectedHives = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.groups.isNotEmpty) {
+      _selectedGroup = widget.groups.first['name'] as String;
+    }
+  }
 
   @override
   void dispose() {
@@ -77,12 +53,44 @@ class _ProductionScreenState extends State<ProductionScreen> {
     super.dispose();
   }
 
-  List<String> get _currentGroupHives {
-    final Map<String, dynamic> group = _groups.firstWhere(
-      (group) => group['name'] == _selectedGroup,
-    );
+  List<Map<String, dynamic>> _createHiveGroups() {
+    int hiveNumber = 1;
+    final List<Map<String, dynamic>> result = [];
 
-    return List<String>.from(group['hives']);
+    for (final group in widget.groups) {
+      final String groupName = group['name'] as String;
+      final String type = group['type'] as String;
+      final int count = group['count'] as int;
+
+      final List<String> hiveIds = [];
+
+      for (int i = 0; i < count; i++) {
+        hiveIds.add(
+          'HIVE-${hiveNumber.toString().padLeft(3, '0')}',
+        );
+        hiveNumber++;
+      }
+
+      result.add({
+        'name': groupName,
+        'type': type,
+        'hives': hiveIds,
+      });
+    }
+
+    return result;
+  }
+
+  List<String> _hivesForSelectedGroup() {
+    final groups = _createHiveGroups();
+
+    for (final group in groups) {
+      if (group['name'] == _selectedGroup) {
+        return List<String>.from(group['hives']);
+      }
+    }
+
+    return [];
   }
 
   void _changeGroup(String? value) {
@@ -106,17 +114,24 @@ class _ProductionScreenState extends State<ProductionScreen> {
     });
   }
 
-  Future<void> _selectDate() async {
-    final DateTime? selectedDate = await showDatePicker(
+  String _formatDate(DateTime date) {
+    final day = date.day.toString().padLeft(2, '0');
+    final month = date.month.toString().padLeft(2, '0');
+
+    return '$day/$month/${date.year}';
+  }
+
+  Future<void> _selectHarvestDate() async {
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _harvestDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
     );
 
-    if (selectedDate != null) {
+    if (picked != null) {
       setState(() {
-        _harvestDate = selectedDate;
+        _harvestDate = picked;
       });
     }
   }
@@ -130,7 +145,7 @@ class _ProductionScreenState extends State<ProductionScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Select at least one hive used for this harvest.',
+            'Select at least one hive that contributed to this harvest.',
           ),
           behavior: SnackBarBehavior.floating,
         ),
@@ -141,27 +156,34 @@ class _ProductionScreenState extends State<ProductionScreen> {
     final String quantity = _quantityController.text.trim();
     final String notes = _notesController.text.trim();
 
+    AppData.currentProduction = '$quantity kg';
+    AppData.latestBatchHoneyType = _selectedHoneyType;
+    AppData.latestBatchQuantity = '$quantity kg';
+    AppData.latestBatchHarvestDate = _formatDate(_harvestDate);
+    AppData.latestBatchStatus = 'Production Recorded';
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => BatchCreationScreen(
-          apiaryName: 'Mangalore Farm',
+          apiaryName: widget.apiaryName,
           hiveGroup: _selectedGroup,
           selectedHives: List<String>.from(_selectedHives),
           honeyType: _selectedHoneyType,
           harvestDate: _formatDate(_harvestDate),
           quantity: quantity,
           notes: notes,
+          groups: widget.groups,
         ),
       ),
     );
   }
 
-  String _formatDate(DateTime date) {
-    final String day = date.day.toString().padLeft(2, '0');
-    final String month = date.month.toString().padLeft(2, '0');
-    final String year = date.year.toString();
-
-    return '$day/$month/$year';
+  void _openProductionHistory() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ProductionHistoryScreen(),
+      ),
+    );
   }
 
   Widget _sectionTitle(String title) {
@@ -178,17 +200,75 @@ class _ProductionScreenState extends State<ProductionScreen> {
     );
   }
 
-  Widget _summaryCard(
-    String title,
-    String value,
-    IconData icon,
-  ) {
+  Widget _hiveCard(String hiveId) {
+    final bool isSelected = _selectedHives.contains(hiveId);
+
+    return GestureDetector(
+      onTap: () {
+        _toggleHive(hiveId);
+      },
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.cardWhite,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected
+                ? AppTheme.honeyGold
+                : AppTheme.cardBorder,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: AppTheme.lightHoney,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                Icons.hexagon_outlined,
+                color: AppTheme.honeyGold,
+                size: 28,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                hiveId,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.darkBrown,
+                ),
+              ),
+            ),
+            Icon(
+              isSelected
+                  ? Icons.check_circle
+                  : Icons.radio_button_unchecked,
+              color: isSelected
+                  ? AppTheme.honeyGold
+                  : AppTheme.secondaryBrown,
+              size: 28,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _apiaryCard() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppTheme.cardWhite,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: AppTheme.cardBorder,
         ),
@@ -196,16 +276,16 @@ class _ProductionScreenState extends State<ProductionScreen> {
       child: Row(
         children: [
           Container(
-            width: 46,
-            height: 46,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: AppTheme.lightHoney,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              icon,
+            child: const Icon(
+              Icons.location_on_outlined,
               color: AppTheme.honeyGold,
-              size: 24,
+              size: 28,
             ),
           ),
           const SizedBox(width: 14),
@@ -213,19 +293,19 @@ class _ProductionScreenState extends State<ProductionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 12,
+                const Text(
+                  'Selected Apiary',
+                  style: TextStyle(
+                    fontSize: 13,
                     color: AppTheme.secondaryBrown,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  value,
+                  widget.apiaryName,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
                     color: AppTheme.darkBrown,
                   ),
                 ),
@@ -237,112 +317,11 @@ class _ProductionScreenState extends State<ProductionScreen> {
     );
   }
 
-  Widget _hiveSelectionCard(String hiveId) {
-    final bool isSelected = _selectedHives.contains(hiveId);
-
-    return InkWell(
-      onTap: () {
-        _toggleHive(hiveId);
-      },
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 13,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppTheme.lightHoney
-              : AppTheme.cardWhite,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isSelected
-                ? AppTheme.honeyGold
-                : AppTheme.cardBorder,
-          ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppTheme.honeyGold
-                    : AppTheme.lightHoney,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(
-                Icons.hive_outlined,
-                color: isSelected
-                    ? Colors.white
-                    : AppTheme.honeyGold,
-                size: 22,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                hiveId,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: AppTheme.darkBrown,
-                ),
-              ),
-            ),
-            Icon(
-              isSelected
-                  ? Icons.check_circle
-                  : Icons.radio_button_unchecked,
-              color: isSelected
-                  ? AppTheme.verifiedGreen
-                  : AppTheme.secondaryBrown,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _summaryRow(
-    String title,
-    String value,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 105,
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppTheme.secondaryBrown,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppTheme.darkBrown,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final hiveGroups = _createHiveGroups();
+    final selectedGroupHives = _hivesForSelectedGroup();
+
     return Scaffold(
       backgroundColor: AppTheme.warmCream,
       appBar: AppBar(
@@ -357,10 +336,15 @@ class _ProductionScreenState extends State<ProductionScreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          child: Form(
-            key: _formKey,
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(
+              20,
+              20,
+              20,
+              32,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -382,14 +366,14 @@ class _ProductionScreenState extends State<ProductionScreen> {
                           Icon(
                             Icons.water_drop_outlined,
                             color: AppTheme.honeyGold,
-                            size: 28,
+                            size: 30,
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               'Record Honey Production',
                               style: TextStyle(
-                                fontSize: 19,
+                                fontSize: 21,
                                 fontWeight: FontWeight.w800,
                                 color: AppTheme.darkBrown,
                               ),
@@ -399,11 +383,11 @@ class _ProductionScreenState extends State<ProductionScreen> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Select the hives that contributed to this harvest '
-                        'and record the quantity produced.',
+                        'Select the hives that contributed to this '
+                        'harvest and record the quantity produced.',
                         style: TextStyle(
                           fontSize: 14,
-                          height: 1.45,
+                          height: 1.5,
                           color: AppTheme.secondaryBrown,
                         ),
                       ),
@@ -412,39 +396,59 @@ class _ProductionScreenState extends State<ProductionScreen> {
                 ),
                 const SizedBox(height: 26),
                 _sectionTitle('Apiary'),
-                _summaryCard(
-                  'Selected Apiary',
-                  'Mangalore Farm',
-                  Icons.location_on_outlined,
-                ),
+                _apiaryCard(),
                 const SizedBox(height: 26),
                 _sectionTitle('Hive Group'),
                 DropdownButtonFormField<String>(
-                  initialValue: _selectedGroup,
-                  decoration: const InputDecoration(
-                    labelText: 'Select Hive Group',
-                    prefixIcon: Icon(
+                  initialValue: _selectedGroup.isEmpty
+                      ? null
+                      : _selectedGroup,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppTheme.cardWhite,
+                    prefixIcon: const Icon(
                       Icons.grid_view_outlined,
+                      color: AppTheme.honeyGold,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
                     ),
                   ),
-                  items: _groups.map(
-                    (group) {
-                      return DropdownMenuItem<String>(
-                        value: group['name'],
-                        child: Text(
-                          '${group['name']} • '
-                          '${group['hives'].length} hives',
-                        ),
-                      );
-                    },
-                  ).toList(),
+                  items: hiveGroups.map((group) {
+                    final String name = group['name'] as String;
+                    final List<String> hives =
+                        List<String>.from(group['hives']);
+
+                    return DropdownMenuItem<String>(
+                      value: name,
+                      child: Text(
+                        '$name • ${hives.length} hives',
+                      ),
+                    );
+                  }).toList(),
                   onChanged: _changeGroup,
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 26),
                 Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: _sectionTitle('Select Hives'),
+                    const Text(
+                      'Select Hives',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppTheme.darkBrown,
+                      ),
                     ),
                     Text(
                       '${_selectedHives.length} selected',
@@ -456,107 +460,153 @@ class _ProductionScreenState extends State<ProductionScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 const Text(
                   'Choose the individual hives that contributed '
                   'to this harvest.',
                   style: TextStyle(
-                    fontSize: 13,
-                    height: 1.4,
+                    fontSize: 14,
+                    height: 1.45,
                     color: AppTheme.secondaryBrown,
                   ),
                 ),
                 const SizedBox(height: 14),
-                ..._currentGroupHives.map(
-                  (hiveId) => _hiveSelectionCard(hiveId),
+                ...selectedGroupHives.map(
+                  (hiveId) => _hiveCard(hiveId),
                 ),
-                const SizedBox(height: 26),
+                const SizedBox(height: 18),
                 _sectionTitle('Harvest Details'),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedHoneyType,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Honey Type',
-                    prefixIcon: Icon(
-                      Icons.water_drop_outlined,
+                    filled: true,
+                    fillColor: AppTheme.cardWhite,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
                     ),
                   ),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'Wildflower Honey',
-                      child: Text('Wildflower Honey'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Eucalyptus Honey',
-                      child: Text('Eucalyptus Honey'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Mango Blossom Honey',
-                      child: Text('Mango Blossom Honey'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Mustard Honey',
-                      child: Text('Mustard Honey'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Other',
-                      child: Text('Other'),
-                    ),
-                  ],
+                  items: honeyTypes.map((type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedHoneyType = value;
-                      });
+                    if (value == null) {
+                      return;
                     }
+
+                    setState(() {
+                      _selectedHoneyType = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 16),
-                InkWell(
-                  onTap: _selectDate,
-                  borderRadius: BorderRadius.circular(12),
-                  child: InputDecorator(
-                    decoration: const InputDecoration(
-                      labelText: 'Harvest Date',
-                      prefixIcon: Icon(
-                        Icons.calendar_today_outlined,
+                GestureDetector(
+                  onTap: _selectHarvestDate,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 17,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardWhite,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppTheme.cardBorder,
                       ),
                     ),
-                    child: Text(
-                      _formatDate(_harvestDate),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: AppTheme.darkBrown,
-                      ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          color: AppTheme.honeyGold,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Harvest Date',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color:
+                                      AppTheme.secondaryBrown,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                _formatDate(_harvestDate),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.darkBrown,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.secondaryBrown,
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _quantityController,
-                  keyboardType: const TextInputType.numberWithOptions(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
                   onChanged: (_) {
                     setState(() {});
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Harvest Quantity',
-                    hintText: 'Example: 150',
+                  decoration: InputDecoration(
+                    labelText: 'Quantity Produced',
+                    hintText: 'Enter quantity in kg',
                     suffixText: 'kg',
-                    prefixIcon: Icon(
-                      Icons.scale_outlined,
+                    filled: true,
+                    fillColor: AppTheme.cardWhite,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Enter the harvest quantity';
+                    final text = value?.trim() ?? '';
+
+                    if (text.isEmpty) {
+                      return 'Enter the quantity produced.';
                     }
 
-                    final double? quantity =
-                        double.tryParse(value.trim());
+                    final number = double.tryParse(text);
 
-                    if (quantity == null || quantity <= 0) {
-                      return 'Enter a valid quantity';
+                    if (number == null || number <= 0) {
+                      return 'Enter a valid quantity.';
                     }
 
                     return null;
@@ -566,76 +616,51 @@ class _ProductionScreenState extends State<ProductionScreen> {
                 TextFormField(
                   controller: _notesController,
                   maxLines: 4,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Production Notes',
                     hintText:
-                        'Add any relevant notes about this harvest...',
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(bottom: 55),
-                      child: Icon(
-                        Icons.notes_outlined,
+                        'Add any useful notes about this harvest',
+                    filled: true,
+                    fillColor: AppTheme.cardWhite,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: AppTheme.cardBorder,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 26),
                 _sectionTitle('Batch-Ready Summary'),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    color: AppTheme.cardWhite,
+                    color: AppTheme.lightHoney,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
                       color: AppTheme.cardBorder,
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              color: AppTheme.lightHoney,
-                              borderRadius:
-                                  BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.inventory_2_outlined,
-                              color: AppTheme.honeyGold,
-                              size: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 14),
-                          const Expanded(
-                            child: Text(
-                              'Production Ready for Batch',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800,
-                                color: AppTheme.darkBrown,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 18),
                       _summaryRow(
                         'Apiary',
-                        'Mangalore Farm',
+                        widget.apiaryName,
                       ),
                       _summaryRow(
                         'Hive Group',
                         _selectedGroup,
                       ),
                       _summaryRow(
-                        'Hives Selected',
-                        _selectedHives.isEmpty
-                            ? 'None selected'
-                            : '${_selectedHives.length} hives',
+                        'Participating Hives',
+                        '${_selectedHives.length}',
                       ),
                       _summaryRow(
                         'Honey Type',
@@ -648,65 +673,42 @@ class _ProductionScreenState extends State<ProductionScreen> {
                       _summaryRow(
                         'Quantity',
                         _quantityController.text.trim().isEmpty
-                            ? 'Not entered'
+                            ? '-'
                             : '${_quantityController.text.trim()} kg',
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 18),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.lightHoney,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppTheme.cardBorder,
-                    ),
-                  ),
-                  child: const Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: AppTheme.honeyGold,
-                        size: 22,
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'This production record can be used to create '
-                          'a traceable honey batch. The batch will later '
-                          'require laboratory quality verification before '
-                          'it can be released as verified honey.',
-                          style: TextStyle(
-                            fontSize: 13,
-                            height: 1.45,
-                            color: AppTheme.secondaryBrown,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 28),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: _saveProductionRecord,
                     icon: const Icon(
-                      Icons.check_circle_outline,
+                      Icons.arrow_forward,
                     ),
                     label: const Text(
-                      'Save Production Record',
+                      'Continue to Batch Creation',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _openProductionHistory,
+                    icon: const Icon(
+                      Icons.history,
+                    ),
+                    label: const Text(
+                      'View Production History',
                     ),
                   ),
                 ),
                 const SizedBox(height: 28),
                 const Center(
                   child: Text(
-                    'Hive2Home • Honey Production',
+                    'Hive2Home • Production Management',
                     style: TextStyle(
                       fontSize: 12,
                       color: AppTheme.secondaryBrown,
@@ -717,6 +719,37 @@ class _ProductionScreenState extends State<ProductionScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _summaryRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppTheme.secondaryBrown,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.darkBrown,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
