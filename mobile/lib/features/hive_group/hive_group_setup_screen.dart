@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/data/app_data.dart';
 import '../hive/hive_screen.dart';
 
 class HiveGroupSetupScreen extends StatefulWidget {
@@ -34,10 +35,8 @@ class _HiveGroupSetupScreenState extends State<HiveGroupSetupScreen> {
       return;
     }
 
-    final TextEditingController nameController =
-        TextEditingController();
-    final TextEditingController countController =
-        TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController countController = TextEditingController();
 
     String hiveType = 'Langstroth';
 
@@ -118,8 +117,7 @@ class _HiveGroupSetupScreenState extends State<HiveGroupSetupScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    final String name =
-                        nameController.text.trim();
+                    final String name = nameController.text.trim();
                     final int? count =
                         int.tryParse(countController.text.trim());
 
@@ -163,6 +161,8 @@ class _HiveGroupSetupScreenState extends State<HiveGroupSetupScreen> {
       );
       return;
     }
+
+    AppData.groups = List<Map<String, dynamic>>.from(_groups);
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -344,8 +344,7 @@ class _HiveGroupSetupScreenState extends State<HiveGroupSetupScreen> {
                     ),
                   ),
                   OutlinedButton.icon(
-                    onPressed:
-                        _remainingHives > 0 ? _addGroup : null,
+                    onPressed: _remainingHives > 0 ? _addGroup : null,
                     icon: const Icon(Icons.add),
                     label: const Text('Add Group'),
                   ),
@@ -403,10 +402,9 @@ class _HiveGroupSetupScreenState extends State<HiveGroupSetupScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed:
-                      _assignedHives == widget.totalHives
-                          ? _continue
-                          : null,
+                  onPressed: _assignedHives == widget.totalHives
+                      ? _continue
+                      : null,
                   child: const Text(
                     'Continue to Hive Management',
                   ),

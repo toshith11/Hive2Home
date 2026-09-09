@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/data/app_data.dart';
+import '../lab_verification/lab_verification_screen.dart';
 
 class BatchCreationScreen extends StatelessWidget {
   final String apiaryName;
@@ -9,6 +11,7 @@ class BatchCreationScreen extends StatelessWidget {
   final String harvestDate;
   final String quantity;
   final String notes;
+  final List<Map<String, dynamic>> groups;
 
   const BatchCreationScreen({
     super.key,
@@ -19,6 +22,7 @@ class BatchCreationScreen extends StatelessWidget {
     required this.harvestDate,
     required this.quantity,
     required this.notes,
+    required this.groups,
   });
 
   Widget _sectionTitle(String title) {
@@ -96,12 +100,23 @@ class BatchCreationScreen extends StatelessWidget {
   }
 
   void _createBatch(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Batch created successfully. Ready for lab verification.',
+    const String batchId = 'H2H-2026-001';
+
+    AppData.latestBatchId = batchId;
+    AppData.latestBatchHoneyType = honeyType;
+    AppData.latestBatchQuantity = '$quantity kg';
+    AppData.latestBatchHarvestDate = harvestDate;
+    AppData.latestBatchStatus = 'Pending Laboratory Verification';
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => LabVerificationScreen(
+          batchId: batchId,
+          honeyType: honeyType,
+          quantity: '$quantity kg',
+          apiaryName: apiaryName,
+          harvestDate: harvestDate,
         ),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

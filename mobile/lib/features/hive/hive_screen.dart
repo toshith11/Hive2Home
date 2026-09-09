@@ -349,8 +349,10 @@ class HiveScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) =>
-                            const ProductionScreen(),
+                        builder: (_) => ProductionScreen(
+                          apiaryName: apiaryName,
+                          groups: groups,
+                        ),
                       ),
                     );
                   },
